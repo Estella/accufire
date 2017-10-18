@@ -1,0 +1,48 @@
+#!/usr/bin/env wish8.6
+# We're trying. Don't give up on us yet.
+
+source lib/1109-entry.tcl
+
+ttk::setTheme clam
+set standardfontsize 9
+set monofont "Droid Sans Mono Slashed"
+set polyfont "Droid Sans"
+scrollbar .mainv -orient vertical   -command {.main yview}
+scrollbar .mainh -orient horizontal -command {.main xview}
+text .main -wrap word -xscroll {.mainh set} -yscroll {.mainv set}
+rename .main text:main
+
+proc .main {args} {
+	switch -exact -- [lindex $args 0] {
+		insert {}
+		delete {}
+		replace {}
+		default { 
+			return [eval text:main $args] 
+		}
+	}
+}
+
+ttk::entry .topic
+frame .statusbar -height [expr {$standardfontsize + 2}]p
+frame .entry
+history::for ttk::entry .entry.box
+ttk::button .entry.send -text "Enter"
+.main configure -insertwidth 0 -font [list $monofont $standardfontsize]
+
+grid .topic -sticky nsew -columnspan 2
+grid .main .mainv -sticky nsew
+grid .entry.box .entry.send -sticky nsew
+grid columnconfigure .entry 0 -weight 5
+grid .entry -sticky nsew -columnspan 2
+grid .statusbar -sticky nsew -columnspan 2
+label .statusbar.first -state disabled -text "Accufire ©2017- by Ellenor Malik, your local friendly code-husky. We're trying. Don't give up on us yet."
+.statusbar.first configure -font [list $monofont $standardfontsize]
+grid .statusbar.first -sticky nsew -columnspan 1
+grid columnconfigure .statusbar 0 -weight 5
+grid rowconfigure . 1 -weight 5
+grid columnconfigure . 0 -weight 5
+
+text:main insert end "We're trying. Don't give up on us yet."
+
+#tkwait variable forever
