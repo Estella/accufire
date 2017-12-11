@@ -7,8 +7,8 @@ ttk::setTheme clam
 set standardfontsize 9
 set monofont "Droid Sans Mono Slashed"
 set polyfont "Droid Sans"
-scrollbar .mainv -orient vertical   -command {.main yview}
-scrollbar .mainh -orient horizontal -command {.main xview}
+ttk::scrollbar .mainv -orient vertical   -command {.main yview}
+ttk::scrollbar .mainh -orient horizontal -command {.main xview}
 text .main -wrap word -xscroll {.mainh set} -yscroll {.mainv set}
 rename .main text:main
 
